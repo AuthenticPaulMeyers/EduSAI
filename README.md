@@ -6,7 +6,7 @@ An SMS and USSD-based Chat Bot to support local secondary students with their st
 [1. Background Information](#1-background-information) <br>
     [1.1. Introduction](#11-introduction) <br>
     [1.2. Problem statement](#12-problem-statement) <br>
-    [1.3. Purpose of the project](#13purpose-of-the-project) <br>
+    [1.3. Purpose of the project](#13-purpose-of-the-project) <br>
     [1.4. Objectives](#14-objectives) <br>
 [2. Project design](#2-project-design) <br>
     [2.1. Minimal Viable Features](#21-minimal-viable-features) <br>
