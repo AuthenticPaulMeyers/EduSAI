@@ -3,7 +3,7 @@
 
 An SMS and USSD-based Chat Bot to support local secondary students with their studies.
 ## TABLE OF CONTENTS
-1. Background Information
+1. Background Information <br>
     1.1. Introduction <br>
     1.2. Problem statement <br>
     1.3. Purpose of the project <br>
