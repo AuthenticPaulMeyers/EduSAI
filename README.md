@@ -21,33 +21,33 @@ An SMS and USSD-based Chat Bot to support local secondary students with their st
 
 ## 1. Background Information
 ### 1.1. Introduction
-...
+...TODO:
 
 ### 1.2. Problem statement
-...
+...TODO:
 
 ### 1.3. Purpose of the project
-...
+...TODO:
 
 ### 1.4. Objectives
-...
+...TODO:
 
 ## 2. Project design
 ### 2.1. Minimal Viable Features
-...
+...TODO:
 
 ### 2.2. Architecture
-...
+...TODO:
 
 ## 3. Ethical considerations
-...
+...TODO:
 
 ## 4. Scaling
 ### 3.1. Opportunities
-...
+...TODO:
 
 ### 3.2. Challenges and Limitations
-...
+...TODO:
 
 ## 5. References
 * Malawi Communications Regulatory Authority. (2024). 2025 National ICT Survey Report. [https://macra.mw/downloads/](https://macra.mw)
