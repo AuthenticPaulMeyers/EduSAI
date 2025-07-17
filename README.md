@@ -18,6 +18,7 @@ An SMS and USSD-based Chat Bot to support local secondary students with their st
 [5. References](#5-references) <br>
 <hr>
 <br/>
+
 ## Background Information
 ### 1.1. Introduction
 ...
