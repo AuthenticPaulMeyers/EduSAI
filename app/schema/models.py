@@ -21,23 +21,16 @@ class User(db.Model):
 class Message(db.Model):
     __tablename__ = 'messages'
     id = db.Column(db.Integer, primary_key=True)
-    language_id = db.Column(db.Integer, db.ForeignKey('languages.id', ondelete="CASCADE"), nullable=False, index=True)
-    subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id', ondelete="CASCADE"), nullable=False, index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete="CASCADE"), nullable=False, index=True)
     content = db.Column(db.Text, nullable=False)
     role = db.Column(db.String(30), nullable=False, default='user')
-
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
     user = db.relationship('User', backref='messages', lazy=True)
-    language = db.relationship('Language', backref='messages', lazy=True)
-    subject = db.relationship('Subject', backref='messages', lazy=True)
 
     def to_dict(self):
         return {
             "role": self.role, 
-            "subject": self.subject.name, 
             "content": self.content,
-            "created_at": self.created_at.isoformat() + 'Z' if self.created_at else None,
-            "updated_at": self.updated_at
         }
     def __repr__(self) -> str:
         return f'Message>>>{self.id}'

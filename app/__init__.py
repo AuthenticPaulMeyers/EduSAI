@@ -86,8 +86,10 @@ def create_app(test_config=None):
         return send_from_directory('static', 'swagger.yaml')
 
     # import more blueprints here
+    from .routes.ussd import sms_bp
 
     # configure blueprints here
+    app.register_blueprint(sms_bp)
 
     # exception handling | catch runtime errors here
     @app.errorhandler(HTTP_404_NOT_FOUND)
