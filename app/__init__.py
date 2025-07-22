@@ -38,13 +38,13 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
     # initialise CORS
-    # cors.init_app(app, supports_credentials=True, resources={
-    # r"/*": {
-    #     "origins": ["<Live API URL>", "<Localhost URL here>"],
-    #     "methods": ["GET", "POST", "OPTIONS", "DELETE", "PUT"],
-    #     "allow_headers": ["Content-Type", "Authorization"]
-    #     }
-    # })
+    cors.init_app(app, supports_credentials=True, resources={
+    r"/*": {
+        "origins": ["https://developers.africastalking.com/simulator", "http://127.0.0.1:5000"],
+        "methods": ["GET", "POST", "OPTIONS", "DELETE", "PUT"],
+        "allow_headers": ["Content-Type", "Authorization"]
+        }
+    })
 
     cors.init_app(app)
 

@@ -22,6 +22,7 @@ def sms_and_ussd():
         return jsonify({'error': 'Input field should not be empty.'}), HTTP_400_BAD_REQUEST
     
     language = 'Chichewa'
+
     if language not in LANGUAGES:
         return jsonify({'error': 'Invalid language.'}), HTTP_400_BAD_REQUEST
     
