@@ -11,6 +11,12 @@ LANGUAGES = ['Chichewa', 'English']
 @limiter.limit("50 per hour", key_func=get_remote_address)
 def sms_and_ussd():
 
+    # Session variables for the ussd
+    # sessionId = request.json.get('sessionId')
+    # input = request.json.get('input')
+    # service_code = request.json.get('serviceCode')
+    # phoneNumber = request.json.get('phoneNumber')
+
     user_id = 1
     
     user_message = request.json.get('content')
@@ -22,11 +28,6 @@ def sms_and_ussd():
     if language not in LANGUAGES:
         return jsonify({'error': 'Invalid language.'}), HTTP_400_BAD_REQUEST
     
-    # Session variables for the ussd
-    # sessionId = request.json.get('sessionId')
-    # input = request.json.get('input')
-    # service_code = request.json.get('serviceCode')
-    # phoneNumber = request.json.get('phoneNumber')
     # # Determine the users current menu
     # if sessionId not in SESSIONS:
     return handle_ai_chat(language, user_id, user_message), HTTP_200_OK

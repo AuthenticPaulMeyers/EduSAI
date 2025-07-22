@@ -6,7 +6,6 @@ from flask_migrate import Migrate
 from .constants.http_status_codes import HTTP_429_TOO_MANY_REQUESTS, HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_503_SERVICE_UNAVAILABLE, HTTP_401_UNAUTHORIZED, HTTP_422_UNPROCESSABLE_ENTITY
 from flask_cors import CORS
 from flask_swagger_ui import get_swaggerui_blueprint 
-from datetime import timedelta
 from supabase import create_client, Client
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
