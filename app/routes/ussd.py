@@ -2,16 +2,14 @@ from flask import request, jsonify, Blueprint
 from ..constants.http_status_codes import HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_200_OK, HTTP_201_CREATED
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from ..utils.functionalities import handle_ai_chat
-# from app import limiter, get_remote_address
+from app import limiter, get_remote_address
 
 sms_bp = Blueprint('sms', __name__, url_prefix='/v1.0')
 
 LANGUAGES = ['Chichewa', 'English']
-SESSIONS = {}
 
-# character chat route
 @sms_bp.route('/edusai', methods=['POST'])
-# @limiter.limit("150 per hour", key_func=get_remote_address)
+@limiter.limit("50 per hour", key_func=get_remote_address)
 # @jwt_required()
 def sms_and_ussd():
 

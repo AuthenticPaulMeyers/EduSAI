@@ -9,6 +9,8 @@ from flask_cors import CORS
 from flask_swagger_ui import get_swaggerui_blueprint 
 from datetime import timedelta
 from supabase import create_client, Client
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 load_dotenv(override=True)
 
@@ -17,6 +19,13 @@ url: str = os.getenv("SUPABASE_URL")
 key: str = os.getenv("SUPABASE_KEY")
 supabase: Client = create_client(url, key)
 
+# Config flask limiter for AI endpoints
+limiter = Limiter(
+    get_remote_address,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri="memory://",
+    )
+
 # swagger ui setup for documentation
 SWAGGER_URL = '/docs'
 API_URL = '/static/swagger.yaml'
@@ -24,7 +33,7 @@ API_URL = '/static/swagger.yaml'
 swaggerui_blueprint = get_swaggerui_blueprint(
     SWAGGER_URL,
     API_URL,
-    config={'app_name': "AI Chat API with YAML"}
+    config={'app_name': "AI SMS CHAT with YAML"}
 )
 
 # config cors
@@ -46,18 +55,6 @@ def create_app(test_config=None):
         }
     })
 
-    cors.init_app(app)
-
-        # Configure token expiration time
-    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(minutes=2)    
-    app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(minutes=2) 
-    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-        "pool_size": 15,
-        "max_overflow": 20,
-        "pool_timeout": 30,
-        "pool_recycle": 3600    # Recycle connections after 1 hour
-    } 
-
     if test_config is None:
         app.config.from_mapping(
             SECRET_KEY=os.getenv('SECRET_KEY'),
@@ -67,10 +64,23 @@ def create_app(test_config=None):
         )
     else:
         app.config.from_mapping(test_config)
+
+    # Configure token expiration time
+    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(minutes=2)    
+    app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(minutes=2) 
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        "pool_size": 15,
+        "max_overflow": 20,
+        "pool_timeout": 30,
+        "pool_recycle": 3600    # Recycle connections after 1 hour
+    } 
     
     # initialise the database here
     db.app=app
     db.init_app(app)
+
+    # Initialise flask limiter
+    limiter.init_app(app)
     
     # initialise jwt here
     jwt.init_app(app)
