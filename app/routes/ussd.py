@@ -39,8 +39,7 @@ def sms_and_ussd():
 
     sms_response(sender, assistant_message)
 
-    # return "Success", HTTP_200_OK
-    return assistant_message
+    return "Success", HTTP_200_OK
 
 
 
