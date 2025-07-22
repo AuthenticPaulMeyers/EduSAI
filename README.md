@@ -11,6 +11,7 @@ An SMS and USSD-based Chat Bot to support local secondary students with their st
 [2. Project design](#2-project-design) <br>
     [2.1. Minimal Viable Features](#21-minimal-viable-features) <br>
     [2.2. Architecture](#22-architecture) <br>
+    [2.3. Tools and technologies](#23-tools-and-technologies) <br>
 [3. Ethical considerations](#3-ethical-considerations) <br>
 [4. Scaling](#4-scaling) <br>
     [3.1. Opportunities](#31-opportunities) <br>
@@ -38,6 +39,9 @@ An SMS and USSD-based Chat Bot to support local secondary students with their st
 
 ### 2.2. Architecture
 ...TODO:
+
+### 2.3. Tools and technologies
+...TODO
 
 ## 3. Ethical considerations
 ...TODO:
