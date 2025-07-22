@@ -61,16 +61,6 @@ def create_app(test_config=None):
     else:
         app.config.from_mapping(test_config)
 
-    # Configure token expiration time
-    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(minutes=2)    
-    app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(minutes=2) 
-    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-        "pool_size": 15,
-        "max_overflow": 20,
-        "pool_timeout": 30,
-        "pool_recycle": 3600    # Recycle connections after 1 hour
-    } 
-    
     # initialise the database here
     db.app=app
     db.init_app(app)
@@ -111,27 +101,6 @@ def create_app(test_config=None):
     @app.errorhandler(HTTP_429_TOO_MANY_REQUESTS)
     def handle_too_may_requests_error(error):
         return jsonify({'error': 'Too many requests. Please try again later.'}), HTTP_429_TOO_MANY_REQUESTS
-    
-    @jwt.expired_token_loader
-    def expired_token_callback(jwt_header, jwt_payload):
-        return jsonify({
-            "error": "token_expired",
-            "msg": "Invalid token"
-        }), HTTP_401_UNAUTHORIZED
-    
-    @jwt.unauthorized_loader
-    def missing_token_callback(error):
-        return jsonify({
-            "error": "authorization_required",
-            "msg": "Invalid token"
-        }), HTTP_401_UNAUTHORIZED
-    
-    @jwt.invalid_token_loader
-    def invalid_token_callback(error):
-        return jsonify({
-            "error": "invalid_token",
-            "msg": "Invalid token"
-        }), HTTP_422_UNPROCESSABLE_ENTITY
     
     # Kill inactive database sessions
     @app.teardown_appcontext
