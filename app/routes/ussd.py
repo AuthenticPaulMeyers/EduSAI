@@ -19,8 +19,8 @@ def sms_and_ussd():
 
     user_id = 1
     
-    # user_message = request.form.get('text')
-    user_message = request.json.get('content')
+    user_message = request.form.get('text')
+    # user_message = request.json.get('content')
     sender = request.form.get('from')
 
     if not user_message:
