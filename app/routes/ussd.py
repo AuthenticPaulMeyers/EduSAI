@@ -19,22 +19,28 @@ def sms_and_ussd():
 
     user_id = 1
     
-    user_message = request.form.get('text')
+    # user_message = request.form.get('text')
+    user_message = request.json.get('content')
     sender = request.form.get('from')
 
     if not user_message:
         return jsonify({'error': 'Input field should not be empty.'}), HTTP_400_BAD_REQUEST
     
-    language = 'Chichewa'
+    language = 'English'
 
     if language not in LANGUAGES:
         return jsonify({'error': 'Invalid language.'}), HTTP_400_BAD_REQUEST
 
-    reply = handle_ai_chat(language, user_id, user_message)
+    data = handle_ai_chat(language, user_id, user_message)
 
-    sms_response(sender, reply)
+    messages = data[0]  # the list of messages
+    assistant_message = messages[-1]['content']
+    print(assistant_message)
 
-    return "Success", HTTP_200_OK
+    sms_response(sender, assistant_message)
+
+    # return "Success", HTTP_200_OK
+    return assistant_message
 
 
 

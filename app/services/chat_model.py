@@ -26,7 +26,7 @@ def create_chat(prompt, conversation_history):
 
     try:
         completion = client.chat.completions.create(
-            model="google/gemini-2.0-flash-exp:free",
+            model="mistralai/mistral-nemo:free",
             messages=conversation_history,
             temperature=0.7,
             stream=True

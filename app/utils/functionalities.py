@@ -37,7 +37,7 @@ def handle_ai_chat(language, user_id, user_message):
 
         conversation_history_dicts = [msg.to_dict() for msg in conversation_history]
 
-        return jsonify({'response': conversation_history_dicts}), HTTP_200_OK
+        return conversation_history_dicts, HTTP_200_OK
     except Exception as e:
         print(f'Error: {e}')
         return f"Error: {e}"
