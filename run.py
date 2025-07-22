@@ -8,5 +8,5 @@ with app.app_context():
     # Run the app and create the database tables
     db.create_all()
     # print("Database created successfully.")
-    app.run(debug=True)
+    # app.run(debug=True)
     
