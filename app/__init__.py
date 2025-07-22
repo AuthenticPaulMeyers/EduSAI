@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, send_from_directory
 import os
 from .schema.models import db
-from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
 from flask_migrate import Migrate
 from .constants.http_status_codes import HTTP_429_TOO_MANY_REQUESTS, HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_503_SERVICE_UNAVAILABLE, HTTP_401_UNAUTHORIZED, HTTP_422_UNPROCESSABLE_ENTITY
@@ -39,9 +38,6 @@ swaggerui_blueprint = get_swaggerui_blueprint(
 # config cors
 cors = CORS()
 
-# configure jwt
-jwt = JWTManager()
-
 # initiate app
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
@@ -49,7 +45,7 @@ def create_app(test_config=None):
     # initialise CORS
     cors.init_app(app, supports_credentials=True, resources={
     r"/*": {
-        "origins": ["https://developers.africastalking.com/simulator", "http://127.0.0.1:5000"],
+        "origins": ["https://developers.africastalking.com", "http://127.0.0.1:5000"],
         "methods": ["GET", "POST", "OPTIONS", "DELETE", "PUT"],
         "allow_headers": ["Content-Type", "Authorization"]
         }
@@ -82,8 +78,6 @@ def create_app(test_config=None):
     # Initialise flask limiter
     limiter.init_app(app)
     
-    # initialise jwt here
-    jwt.init_app(app)
     # initialise migrations
     Migrate(app, db)
 

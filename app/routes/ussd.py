@@ -1,6 +1,5 @@
 from flask import request, jsonify, Blueprint
 from ..constants.http_status_codes import HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_200_OK, HTTP_201_CREATED
-from flask_jwt_extended import jwt_required, get_jwt_identity
 from ..utils.functionalities import handle_ai_chat
 from app import limiter, get_remote_address
 
@@ -10,7 +9,6 @@ LANGUAGES = ['Chichewa', 'English']
 
 @sms_bp.route('/edusai', methods=['POST'])
 @limiter.limit("50 per hour", key_func=get_remote_address)
-# @jwt_required()
 def sms_and_ussd():
 
     user_id = 1
@@ -24,6 +22,7 @@ def sms_and_ussd():
     if language not in LANGUAGES:
         return jsonify({'error': 'Invalid language.'}), HTTP_400_BAD_REQUEST
     
+    # Session variables for the ussd
     # sessionId = request.json.get('sessionId')
     # input = request.json.get('input')
     # service_code = request.json.get('serviceCode')
