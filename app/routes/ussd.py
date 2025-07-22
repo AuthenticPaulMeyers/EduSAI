@@ -1,6 +1,6 @@
 from flask import request, jsonify, Blueprint
 from ..constants.http_status_codes import HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_200_OK, HTTP_201_CREATED
-from ..utils.functionalities import handle_ai_chat
+from ..utils.functionalities import handle_ai_chat, sms_response
 from app import limiter, get_remote_address
 
 sms_bp = Blueprint('sms', __name__, url_prefix='/v1.0')
@@ -19,7 +19,9 @@ def sms_and_ussd():
 
     user_id = 1
     
-    user_message = request.json.get('content')
+    user_message = request.form.get('text')
+    sender = request.form.get('from')
+
     if not user_message:
         return jsonify({'error': 'Input field should not be empty.'}), HTTP_400_BAD_REQUEST
     
@@ -30,7 +32,10 @@ def sms_and_ussd():
     
     # # Determine the users current menu
     # if sessionId not in SESSIONS:
-    return handle_ai_chat(language, user_id, user_message), HTTP_200_OK
+
+    reply = handle_ai_chat(language, user_id, user_message)
+
+    sms_response(sender, reply)
 
 
 
