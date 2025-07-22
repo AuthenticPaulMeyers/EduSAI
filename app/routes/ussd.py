@@ -29,9 +29,6 @@ def sms_and_ussd():
 
     if language not in LANGUAGES:
         return jsonify({'error': 'Invalid language.'}), HTTP_400_BAD_REQUEST
-    
-    # # Determine the users current menu
-    # if sessionId not in SESSIONS:
 
     reply = handle_ai_chat(language, user_id, user_message)
 
