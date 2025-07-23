@@ -1,6 +1,5 @@
 from app import create_app, db
 from flask_migrate import Migrate
-from app.utils.functionalities import SMS
 
 app = create_app()
 migrate = Migrate(app, db)
@@ -10,5 +9,4 @@ with app.app_context():
     db.create_all()
     # print("Database created successfully.")
     app.run(debug=True, port=5000)
-    SMS().send()
 

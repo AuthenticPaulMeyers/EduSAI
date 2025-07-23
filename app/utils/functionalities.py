@@ -5,11 +5,9 @@ from ..services.chat_model import create_chat
 import africastalking
 from dotenv import load_dotenv
 import os
-from ..constants.http_status_codes import HTTP_400_BAD_REQUEST, HTTP_200_OK
+from ..constants.http_status_codes import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
 load_dotenv(override=True)
-
-AT_URL = 'https://api.africastalking.com/version1/messaging/bulk'
 
 # A function to handle sms chat logic
 def handle_ai_chat(language, user_id, user_message):
@@ -54,32 +52,10 @@ def handle_ussd_registration(fullname, phoneNumber):
         return (f"Error: {e}")
 
 # responses to africas talking sms
-# def sms_response(recipientPhoneNumber, message):
-#     api_key = os.getenv('SANDBOX_API_KEY')
-#     if not api_key:
-#         return {'error': 'Invalid SANDBOX API_KEY'}, HTTP_400_BAD_REQUEST
-#     response = requests.post(AT_URL,
-#         headers={
-#             "Accept": "application/json",
-#             "apiKey": os.getenv('SANDBOX_API_KEY'),
-#             "Content-Type": "application/json"
-#         },
-#         json={
-#             "username": "sandbox",
-#             "message": message,
-#             "from": "3567",
-#             "phoneNumbers": [recipientPhoneNumber]
-#         }
-#     )
-#     print(os.getenv('SANDBOX_API_KEY'))
-#     print(response.status_code)
-#     print(response.text)
-#     return response, HTTP_200_OK
-
 class SMS:
     def __init__(self):
 		# Set app credentials
-        self.username = "sandbox"
+        self.username = os.getenv("USERNAME")
         self.api_key = os.getenv('SANDBOX_API_KEY')
 
         # Initialize the SDK
@@ -88,11 +64,10 @@ class SMS:
         # Get the SMS service
         self.sms = africastalking.SMS
 
-    def send(self, phoneNumber, message, senderShortCode):
+    def send(self, phoneNumber, message, shortCode):
         try:
-            response = self.sms.send(message, [phoneNumber], senderShortCode)
-            print (response)
+            formatted_phone_number = phoneNumber.strip().replace(" ", "")
+            response = self.sms.send(message, [formatted_phone_number], shortCode)
             return response
         except Exception as e:
-            print ('Encountered an error while sending: %s' % str(e))
-            return ('Encountered an error while sending: %s' % str(e))
+            return ('Error: %s' % str(e))

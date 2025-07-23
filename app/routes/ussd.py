@@ -2,6 +2,10 @@ from flask import request, jsonify, Blueprint
 from ..constants.http_status_codes import HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_200_OK, HTTP_201_CREATED
 from ..utils.functionalities import handle_ai_chat, SMS
 from app import limiter, get_remote_address
+import os
+from dotenv import load_dotenv
+
+load_dotenv(override=True)
 
 sms_bp = Blueprint('sms', __name__, url_prefix='/v1.0')
 
@@ -20,10 +24,10 @@ def sms_and_ussd():
     # phoneNumber = request.json.get('phoneNumber')
 
     user_id = 1 # Placeholder
-    senderID = "EDUSAI99"
+    shortcode = os.getenv('SHORTCODE')
     receipient_message = request.form.get('text')
-    recipient = request.form.get('from').strip()
-    phoneNumber = [recipient]
+    recipient = request.form.get('from')
+    phoneNumber = recipient.strip().replace(" ", "")
 
     if not receipient_message or not recipient:
         return jsonify({'error': 'Required fields should not be empty.'}), HTTP_400_BAD_REQUEST
@@ -42,7 +46,7 @@ def sms_and_ussd():
     messages = data[0] 
     assistant_message = messages[-1]['content']
 
-    response = send_sms.send(assistant_message, phoneNumber, senderID)
+    response = send_sms.send(assistant_message, [phoneNumber], shortcode)
     print(response)
 
     return response, HTTP_200_OK
