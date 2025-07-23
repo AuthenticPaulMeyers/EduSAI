@@ -1,6 +1,6 @@
 from flask import request, jsonify, Blueprint
 from ..constants.http_status_codes import HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_200_OK, HTTP_201_CREATED
-from ..utils.functionalities import handle_ai_chat, SMS
+from ..utils.functionalities import handle_ai_chat, SMS, handle_ussd_registration
 from app import limiter, get_remote_address
 import os
 from dotenv import load_dotenv
@@ -17,11 +17,14 @@ send_sms = SMS()
 @sms_bp.route('/edusai', methods=['POST'])
 @limiter.limit("50 per hour", key_func=get_remote_address)
 def sms_and_ussd():
-    # Session variables for the ussd
-    # sessionId = request.json.get('sessionId')
-    # input = request.json.get('input')
-    # service_code = request.json.get('serviceCode')
-    # phoneNumber = request.json.get('phoneNumber')
+
+    # Read the variables sent via POST from the API
+    # session_id   = request.values.get("sessionId", None)
+    # serviceCode  = request.values.get("serviceCode", None)
+    # phone_number = request.values.get("phoneNumber", None)
+    # text         = request.values.get("text", "default")
+
+    # return handle_ussd_registration(text)
 
     user_id = 1 # Placeholder
     shortcode = os.getenv('SHORTCODE')

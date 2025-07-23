@@ -5,7 +5,7 @@ from ..services.chat_model import create_chat
 import africastalking
 from dotenv import load_dotenv
 import os
-from ..constants.http_status_codes import HTTP_200_OK, HTTP_400_BAD_REQUEST
+from ..constants.http_status_codes import HTTP_200_OK
 
 load_dotenv(override=True)
 
@@ -41,16 +41,6 @@ def handle_ai_chat(language, user_id, user_message):
         print(f'Error: {e}')
         return f"Error: {e}"
 
-
-def handle_ussd_registration(fullname, phoneNumber):
-
-    try: 
-        db.session.add(User(fullname, phoneNumber))
-        db.session.commit()
-    except Exception as e:
-        print(f"Error: {e}")
-        return (f"Error: {e}")
-
 # responses to africas talking sms
 class SMS:
     def __init__(self):
@@ -71,3 +61,24 @@ class SMS:
             return response
         except Exception as e:
             return ('Error: %s' % str(e))
+
+# A function to handle registration through USSD
+def handle_ussd_registration(text):
+
+  if text == '':
+      # This is the first request.
+      response  = "CON Welcome to EduSAI \n"
+      response += "1 - Get started \n"
+      response += "2 - Learn more \n"
+
+  elif text == '1':
+      response  = "END Thank you for your interest to start using EDuSAI. You will receive an SMS confirmation message shortly. \n"
+
+  elif text == '2':
+      response = "END EduSAI is an AI assistant to help you with your studies using SMS chats. \n"
+
+  else :
+      response = "END Invalid choice"
+
+  # Send the response back to the API
+  return response
