@@ -38,7 +38,7 @@ An SMS and USSD-based Chat Bot to support local secondary students with their st
 ...TODO:
 
 ### 2.2. Architecture
-...TODO:
+<img src="./images/design.jpg" />
 
 ### 2.3. Tools and technologies
 ➖ Backend: Python with Flask framework
