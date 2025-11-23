@@ -1,21 +1,14 @@
-from flask import Flask, jsonify, send_from_directory
+from flask import Flask, jsonify
 import os
 from .schema.models import db
 from dotenv import load_dotenv
 from flask_migrate import Migrate
-from .constants.http_status_codes import HTTP_429_TOO_MANY_REQUESTS, HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_503_SERVICE_UNAVAILABLE, HTTP_401_UNAUTHORIZED, HTTP_422_UNPROCESSABLE_ENTITY
+from .constants.http_status_codes import HTTP_429_TOO_MANY_REQUESTS, HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_503_SERVICE_UNAVAILABLE
 from flask_cors import CORS
-from flask_swagger_ui import get_swaggerui_blueprint 
-from supabase import create_client, Client
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
 load_dotenv(override=True)
-
-# Create supabase client to store the tables
-url: str = os.getenv("SUPABASE_URL")
-key: str = os.getenv("SUPABASE_KEY")
-supabase: Client = create_client(url, key)
 
 # Config flask limiter for AI endpoints
 limiter = Limiter(
@@ -23,16 +16,6 @@ limiter = Limiter(
     default_limits=["200 per day", "50 per hour"],
     storage_uri="memory://",
     )
-
-# swagger ui setup for documentation
-SWAGGER_URL = '/docs'
-API_URL = '/static/swagger.yaml'
-
-swaggerui_blueprint = get_swaggerui_blueprint(
-    SWAGGER_URL,
-    API_URL,
-    config={'app_name': "AI SMS CHAT with YAML"}
-)
 
 # config cors
 cors = CORS()
@@ -70,16 +53,8 @@ def create_app(test_config=None):
     # initialise migrations
     Migrate(app, db)
 
-    # initialise swagger ui blueprint
-    app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
-
-    # Serve the Swagger YAML file
-    @app.route('/static/swagger.yaml')
-    def send_swagger():
-        return send_from_directory('static', 'swagger.yaml')
-
     # import more blueprints here
-    from .routes.ussd import sms_bp
+    from .routes.sms import sms_bp
 
     # configure blueprints here
     app.register_blueprint(sms_bp)

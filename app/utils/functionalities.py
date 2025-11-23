@@ -2,9 +2,7 @@ from __future__ import print_function
 from ..schema.models import Message, db, User
 from ..constants.http_status_codes import HTTP_200_OK
 from ..services.chat_model import create_chat
-import africastalking
 from dotenv import load_dotenv
-import os
 from ..constants.http_status_codes import HTTP_200_OK
 
 load_dotenv(override=True)
@@ -40,45 +38,3 @@ def handle_ai_chat(language, user_id, user_message):
     except Exception as e:
         print(f'Error: {e}')
         return f"Error: {e}"
-
-# responses to africas talking sms
-class SMS:
-    def __init__(self):
-		# Set app credentials
-        self.username = os.getenv("USERNAME")
-        self.api_key = os.getenv('SANDBOX_API_KEY')
-
-        # Initialize the SDK
-        africastalking.initialize(self.username, self.api_key)
-
-        # Get the SMS service
-        self.sms = africastalking.SMS
-
-    def send(self, phoneNumber, message, shortCode):
-        try:
-            formatted_phone_number = phoneNumber.strip().replace(" ", "")
-            response = self.sms.send(message, [formatted_phone_number], shortCode)
-            return response
-        except Exception as e:
-            return ('Error: %s' % str(e))
-
-# A function to handle registration through USSD
-def handle_ussd_registration(text):
-
-  if text == '':
-      # This is the first request.
-      response  = "CON Welcome to EduSAI \n"
-      response += "1 - Get started \n"
-      response += "2 - Learn more \n"
-
-  elif text == '1':
-      response  = "END Thank you for your interest to start using EDuSAI. You will receive an SMS confirmation message shortly. \n"
-
-  elif text == '2':
-      response = "END EduSAI is an AI assistant to help you with your studies using SMS chats. \n"
-
-  else :
-      response = "END Invalid choice"
-
-  # Send the response back to the API
-  return response
