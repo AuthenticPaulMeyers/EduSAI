@@ -41,7 +41,22 @@ An SMS and USSD-based Chat Bot to support local secondary students with their st
 ...TODO:
 
 ### 2.3. Tools and technologies
-...TODO
+➖ Backend: Python with Flask framework
+
+➖ SMS Gateway: Twilio (Africa's Talking was also another option)
+
+➖ Database: SQLite (Will be migrated to PostgreSQL with Supabase in production)
+
+➖ AI Model: Used OpenRouter to access 'DeepSeek AI - free'
+
+
+SECURITY
+
+➖ Rate limiting with Flask-Limiter, Error Handling
+
+➖ Added CORS (Cross Origin Resource Sharing)
+
+➖ Session management with JWT
 
 ## 3. Ethical considerations
 ...TODO:
@@ -51,7 +66,11 @@ An SMS and USSD-based Chat Bot to support local secondary students with their st
 ...TODO:
 
 ### 3.2. Challenges and Limitations
-...TODO:
+➖ High cost of SMS Gateways in Malawi.
+
+➖ AI Model runs on DeepSeek AI which can not give precise content for the Malawian culture. Therefore, there is need to be trained and fine-tuned or build another one from scratch trained on data from the Malawian syllabuses.
+
+➖ High cost of running LLMs on GSM network.
 
 ## 5. References
 * Malawi Communications Regulatory Authority. (2024). 2025 National ICT Survey Report. [https://macra.mw/downloads/](https://macra.mw)
