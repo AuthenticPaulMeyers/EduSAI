@@ -27,8 +27,8 @@ def create_app(test_config=None):
     # initialise CORS
     cors.init_app(app, supports_credentials=True, resources={
     r"/*": {
-        "origins": ["https://developers.africastalking.com", "http://127.0.0.1:5000"],
-        "methods": ["GET", "POST", "OPTIONS", "DELETE", "PUT"],
+        "origins": ["https://console.twilio.com/us1/develop/sms/try-it-out/send-an-sms", "http://127.0.0.1:5000"],
+        "methods": ["GET", "POST"],
         "allow_headers": ["Content-Type", "Authorization"]
         }
     })
@@ -47,7 +47,7 @@ def create_app(test_config=None):
     db.app=app
     db.init_app(app)
 
-    # Initialise flask limiter
+    # Initialise flask rate limiter
     limiter.init_app(app)
     
     # initialise migrations

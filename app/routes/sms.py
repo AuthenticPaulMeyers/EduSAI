@@ -12,7 +12,7 @@ load_dotenv(override=True)
 
 sms_bp = Blueprint('sms', __name__, url_prefix='/v1.0')
 
-LANGUAGES = ['Chichewa', 'English']
+LANGUAGES = ('Chichewa', 'English')
 
 # setup twilio
 account_sid = os.environ["TWILIO_ACCOUNT_SID"]
@@ -24,10 +24,12 @@ client = Client(account_sid, auth_token)
 def sms_and_ussd():
 
     # Get the phone number of the user from the request
-    user_phone = request.form.get('From')
-    # fetch user_id from the database using the phone number 
-    user = User.query.filter_by(phonenumber=user_phone).first()
-    user_id = user.id if user else None
+    # user_phone = request.form.get('To')
+    # # fetch user_id from the database using the phone number 
+    # user = User.query.filter_by(phonenumber=user_phone).first()
+    # user_id = user.id if user else None
+
+    user_id = 1
 
     # Placeholder
     language = 'English'
